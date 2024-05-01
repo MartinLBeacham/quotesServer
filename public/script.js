@@ -32,7 +32,7 @@ const renderQuotes = (quotes = []) => {
 }
 
 fetchAllButton.addEventListener('click', () => {
-  fetch('/api/quotes')
+  fetch('/api/quotes/all')
   .then(response => {
     if (response.ok) {
       return response.json();
@@ -41,27 +41,33 @@ fetchAllButton.addEventListener('click', () => {
     }
   })
   .then(response => {
-    renderQuotes(response.quotes);
+    renderQuotes(response);
   });
 });
 
 fetchRandomButton.addEventListener('click', () => {
   fetch('/api/quotes/random')
   .then(response => {
+    console.log("pulling response")
     if (response.ok) {
-      return response.json();
+      const result=response.json()
+
+      return result;
     } else {
+
       renderError(response);
     }
   })
   .then(response => {
-    renderQuotes([response.quote]);
+    console.log(response)
+    renderQuotes([response]);
   });
 });
 
 fetchByAuthorButton.addEventListener('click', () => {
   const author = document.getElementById('author').value;
-  fetch(`/api/quotes?person=${author}`)
+
+  fetch(`/api/quotes/person/${author}`)
   .then(response => {
     if (response.ok) {
       return response.json();
@@ -70,6 +76,6 @@ fetchByAuthorButton.addEventListener('click', () => {
     }
   })
   .then(response => {
-    renderQuotes(response.quotes);
+    renderQuotes(response);
   });
 });
